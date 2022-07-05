@@ -1,0 +1,112 @@
+
+# liveness probe is needed to know that a prob needs a restart 
+# for eg:- 
+#      1) if there is dead lock happening in your k8 cluster 
+#         and docker container cannot start
+#
+#      2) configuration     httpGet:
+#                             path: /hello (hear we will give our metric or health status path)
+#                             port: 8080 (port no of application)
+#                           initaialDelaySeconds: 15 (when the applicaiion it will w8 for this initial 
+#                                                      time before start looking for deadlock)
+#                           periodSeconds: 10 (the regular interval its going to check for deadlock)
+#----- responsible for docker container 
+
+#-------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------
+
+# readiness probes is a door-keeper for incomming traffic
+# it is responsible for telling that pod is ready to take traffic or not  
+# If it is not ready readiness is going to tell that this pod is not healthy 
+# so pls remove this pod from the load balancer or vice versa  
+#
+#
+#     configurations :-  same as liveness prob 
+#----- responsible for whole pod 
+
+
+#-------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------
+
+# startup probe :- checks weather container application started or not 
+#----- responsible for application deployed inside the container 
+
+# it checks weather if the application started successfully ? 
+# if no then there is no need to start the liveness and the redyness probe 
+# thats the main responsibility of the startup probe 
+
+# configuration contains :-  httpGet:
+#                               path: /hello
+#                               port: 8080
+#                             failureThreshold:30 ()
+#                             periodSeconds: 10 
+#                        (application will w8 for 5 min i.e, 30*10/60sec = 5 min)
+#                         its the maximum time in startup probe will w8 till the application starts 
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-springboot
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+        app: demo-springboot
+  template:
+    metadata:
+      labels:
+        app: demo-springboot
+    spec:
+      containers:
+      - name: springboot
+        image: rahulwagh17/kubernetes:jhooq-k8s-springboot
+        ports:
+          - containerPort: 8080
+
+        resources:
+            requests:
+              memory: "128Mi"
+              cpu: "512m"
+            limits:
+              memory: "128Mi"
+              cpu: "512m"
+
+        readinessProbe:
+          httpGet:
+            path: /hello
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 10
+
+        livenessProbe:
+            httpGet:
+              path: /hello
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+
+        startupProbe:
+            httpGet:
+              path: /hello
+              port: 8080
+            failureThreshold: 30
+            periodSeconds: 10
+
+        env:
+          - name: PORT
+            value: "8080"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: jhooq-springboot
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: jhooq-springboot
