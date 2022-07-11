@@ -1,0 +1,24 @@
+Exporter ?
+
+Translator between app data to Prometheus understable metrics 
+
+i.e, it translates application data/metric to metric/data
+that prometheus can understand 
+
+its responsibilities includes 
+a) it fetches the data from the Target(app/service) 
+b) converts into correct format that prometheus can understand 
+c) expose /metric endpopint that prometheus will be able to scrap
+
+we can search exporter in the official promethius website 
+or we can also search them on the docker hub to deploy them 
+
+need to have 3 thing(component) in place before deploying exporter 
+- Exporter application
+    (exposes/metric endpints)
+- Service
+    (for connection to the exporter)
+- ServiceMoniter
+    # to let prometheus know that there is new end point to be scrapped
+    (to be discovered)
+

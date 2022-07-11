@@ -1,0 +1,20 @@
+Service monitor is a custom k8 component 
+
+Find exported target
+
+in config file 
+
+-- kind is servieMonitor
+
+-- in "spec" we have 
+        - endpoints 
+            - path : /metric
+
+
+-- we have imp "label" called
+        - release: prometheus
+
+        # it allows prometheus to find service moitor in 
+        cluster and register so that it can start scraping data 
+        it is described in promethius itself 
+

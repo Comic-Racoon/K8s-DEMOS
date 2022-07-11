@@ -1,0 +1,89 @@
+1) What is Prometheus ?
+
+->  * prometheus was created to monitor highly dynamic container environments like
+        kubernetes docker swarm etc however itcan also be used in a traditional
+        non-container infrastructure where you have just bare servers with applications
+        deployed directly on it
+    * 
+
+2) Where and why is Prometheus used ?
+
+    * typically we have multiple servers that run containerized application and there 
+        are 100's of diff processes running on same infrastructure so to run smoohly 
+        without application downtime is very challenging 
+    * In complex infrastructure there are many things which can go wrong when we have
+        tons of services and applications deployed and dependes on one another 
+    * If one service or application crashes can cuse failuer to another service 
+    * So the de-bugging becomes time consumeing 
+
+    eg :- 
+
+    Prometheus is such automated monitoring and alearting tool   
+
+3) Prometheus Architecture ?
+
+    * it has main 3 components 
+    * 1 ->  Prometheus Server ( which does the actual monitering work )
+
+            it has 3 parts 
+
+            a)  Storage (Time Series Database )
+                - Which stores metric data  eg:- Cpu Usage, No. of Exceptions occurs
+            
+            b)  Data Retrival worker 
+                - it pulls the metric data from
+                    - applications
+                    - Services 
+                    - servers
+                    - and other taget resources 
+                    and stores or pushes them into the Storage(Time Series Database)
+
+            c) HTTP server 
+                - it has web server which accepts queries 
+                - the server api is used to display in 
+                    Prometheus Web Ui or data visualizatoin tool like GRIFANA 
+    
+    * 2 ->  Target and metric 
+
+            -> Prometheus monitor a particular thing that thing can be 
+                    - linux/Windows server
+                    - Single application
+                    - Apache Server
+                    - Serice Like db 
+                * and a thing that prometheus monitor is called target 
+                    - targets have units that can be monitered 
+                        eg- a linux server could have - CPU Status 
+                                                      - Memory or disk Usage
+                                                      - Request count 
+                                                      - Request Duration
+                                                      - Exception count 
+                                                These are called Metric 
+                                                These get stored in Database (Time Series Database)
+
+    * 3 -> Metric 
+
+            -> It is in human readable text-base  format 
+            -> Metric entries: Type and HELP attribute 
+
+                    HELP -> Description of what metric is 
+                    Type -> 3 Types
+                            1)  Counter (How many times thing has happened )
+                            2)  Gauge   (What is current value of "X" now )
+                            3)  Histogram (How low or how big ?)
+        
+
+
+--- correct format and application/ service should expose service 
+--- exporter 
+
+--- aleart manager 
+
+--- use operator ---(maintained by helm community )
+
+
+4) Example configuration ?
+
+
+
+
+5) Key Characteristics ?

@@ -1,0 +1,34 @@
+
+Step 1
+
+installing prometheus operator
+# insall operator using command 
+    -- helm install prometheus prometheus-community/kube-prometheus-stack --version "9.4.1"
+    -- kubectl get all 
+
+# operator has been set up 
+# we can port forword to access grifana and promethius ui 
+
+Step 2 
+
+installing mongodb deployment
+
+    # helm show values prometheus-community/prometheus-mongodb-exporter
+
+        in the community we need to overide two things 
+
+        mongodb:
+           # service enpoint "mongodb://<mongo service name>:<mongo service port>"
+           uri: "mongodb://mongo-service:27017"
+
+        add additional label in service moniter 
+
+        ServiceMoniter:
+           # releale prometheus lable is needed by all the service 
+           # moniter so that the end-point(/metric) can get detected(registered) by the prometheus 
+           additionalLables: 
+              release: promrtheus
+
+step 3 
+
+helm install mongodb-exporter prometheus-community/prometheus-mongodb-exporter -f values.yaml 
