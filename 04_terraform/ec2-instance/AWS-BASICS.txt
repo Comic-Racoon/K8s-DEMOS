@@ -1,0 +1,77 @@
+https://medium.com/@epratik/your-first-project-on-aws-the-basics-bfb9303664dd
+
+This document includes.
+    what is cloud computing?
+
+
+1) What is clod computing ?
+
+    It is om-demand availability of computer system resources espicially
+    - data storage
+    - computing power without direct active management by user
+    i.e, you can have software hardware at click of a button and instantly start using it 
+
+2) VPC ?
+
+    Virtual Private Cloud is a virtual network inside AWS account.
+    This is nothing but range of IP addersses that are allocated to 
+    your CIDR (Classless inter-domain routing)
+
+    Ip address is represented as a 32-bit number divided into 
+    4 blocks of 8 bit each, for example, 10.0.0.0, each block
+    here can have a value from 0 to 255 i.e. 2⁸. 
+
+    total no of ip addersses = 4096 
+
+3) SUBNET ?
+
+    The 4096 addresses can be further divided into more 
+    groups called subnets which are also represented by 
+    CIDR blocks.
+
+    // https://www.youtube.com/watch?v=OqsXzkXfwRw
+    (SUBNET)
+
+    A subnet can be public or private, a public subnet is 
+    the one which is connected to AWS internet gateway 
+    ( resources in your VPC can connect to the internet through 
+    the internet gateway ) and a private subnet is the one that 
+    is not, there are however instances when you would want your
+    private resources to connect to the internet, for example 
+    in case of software updates. So, how do we do it? This is
+    achieved by connecting the private subnet to a NAT gateway 
+    which then connects to the internet gateway.
+
+4) NAT Gateway ?
+
+    The NAT gateway replaces the private IP with its public 
+    IP(185.221.69.47) and a newly available source port and 
+    calls the target IP on the specified port. Response 
+    from the target is also translated back to the actual 
+    source tuple which makes it back to the initiator virtual 
+    machine inside the private subnet.
+
+5) Internet Gateway ?
+   
+    The internet gateway allows internet traffic to enter or 
+    leave the VPC. Only 1 internet gateway is allowed per VPC.
+
+6) secuirity Group ?
+   
+    A security group acts as a virtual firewall for your 
+    instance to control inbound and outbound traffic. When you 
+    launch an instance in a VPC, you can assign the instance to 
+    up to five security groups.
+
+    * it ensure that unwanted or unauthorized traffic does not get 
+      in 
+
+    * it is an aws fire wall solution,
+      which filters the incomming and outgoing traffic from an instance
+      this filtering done based upon the IP protocols, ports and 
+      source/destination IP addresses
+
+      - at backend it requires x.509 certificate and key to authorize
+        changes
+
+      - 

@@ -1,0 +1,8 @@
+Aws secuirity group module
+
+* Virtual fire wall for your ec2 instances
+* Blocks all traffic the ports, protocol, and sources your
+  specify
+* you defines rules which are inbound and outbound 
+* rules are stateful 
+* Allows for very fine grain of access control 
